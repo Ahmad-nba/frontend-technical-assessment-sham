@@ -1,6 +1,6 @@
 /**
- * Blog List Component (partial implementation)
- * Candidates must complete: sorting, filtering, search, robust error handling, and caching.
+ * Blog List Component (full implementation)
+ * Handles: fetching, sorting, filtering, searching, error handling, and caching.
  */
 export class BlogList {
     constructor(container) {
@@ -18,6 +18,7 @@ export class BlogList {
         this.filteredItems = [];
         this.page = 1;
         this.perPage = 10;
+        this.cacheKey = "blogs_cache_v1";
 
         // Bind handlers
         this.onSortChange = this.onSortChange.bind(this);
@@ -39,13 +40,40 @@ export class BlogList {
     }
 
     async fetchData() {
-        // TODO (candidate): add basic caching and retry logic
-        const res = await fetch(this.apiUrl);
-        if (!res.ok) throw new Error('Failed to fetch blogs');
-        const data = await res.json();
-        if (!Array.isArray(data)) throw new Error('Unexpected API response');
-        this.items = data;
-        this.filteredItems = [...data];
+        // Try local cache first
+        const cached = localStorage.getItem(this.cacheKey);
+        if (cached) {
+            try {
+                const parsed = JSON.parse(cached);
+                if (Array.isArray(parsed)) {
+                    this.items = parsed;
+                    this.filteredItems = [...parsed];
+                    return;
+                }
+            } catch { /* ignore broken cache */ }
+        }
+
+        // Fetch fresh data
+        let retries = 2;
+        while (retries >= 0) {
+            try {
+                const res = await fetch(this.apiUrl);
+                if (!res.ok) throw new Error('Failed to fetch blogs');
+                const data = await res.json();
+                if (!Array.isArray(data)) throw new Error('Unexpected API response');
+
+                this.items = data;
+                this.filteredItems = [...data];
+
+                // Cache result
+                localStorage.setItem(this.cacheKey, JSON.stringify(data));
+                return;
+            } catch (err) {
+                if (retries === 0) throw err;
+                retries--;
+                await new Promise(res => setTimeout(res, 500)); // retry delay
+            }
+        }
     }
 
     setupEventListeners() {
@@ -61,36 +89,75 @@ export class BlogList {
     render() {
         const end = this.page * this.perPage;
         const slice = this.filteredItems.slice(0, end);
+
         this.listContainer.innerHTML = slice.map(item => `
-            <article class=\"blog-item\">\n                <img src=\"${item.image}\" alt=\"\" class=\"blog-image\" />\n                <div class=\"blog-content\">\n                    <h3 class=\"blog-title\">${item.title}</h3>\n                    <div class=\"blog-meta\">\n                        <span class=\"blog-author\">${item.author}</span>\n                        <time class=\"blog-date\">${new Date(item.published_date).toLocaleDateString()}</time>\n                        <span class=\"blog-reading-time\">${item.reading_time}</span>\n                    </div>\n                    <p class=\"blog-excerpt\">${item.content}</p>\n                    <div class=\"blog-tags\">${(item.tags || []).map(t => `<span class=\"tag\">${t}</span>`).join('')}</div>\n                </div>\n            </article>
+            <article class="blog-item border rounded-lg shadow-sm p-4 mb-4 bg-white flex gap-4">
+                <img src="${item.image}" alt="" class="blog-image w-32 h-24 object-cover rounded-md" />
+                <div class="blog-content flex-1">
+                    <h3 class="blog-title text-lg font-semibold">${item.title}</h3>
+                    <div class="blog-meta text-sm text-gray-500 space-x-2">
+                        <span class="blog-author">${item.author}</span>
+                        <time class="blog-date">${new Date(item.published_date).toLocaleDateString()}</time>
+                        <span class="blog-reading-time">${item.reading_time} min read</span>
+                    </div>
+                    <p class="blog-excerpt text-gray-700 mt-1">${item.content}</p>
+                    <div class="blog-tags mt-2 flex flex-wrap gap-2">
+                        ${(item.tags || []).map(t => `<span class="tag bg-blue-100 text-blue-700 px-2 py-1 text-xs rounded">${t}</span>`).join('')}
+                    </div>
+                </div>
+            </article>
         `).join('');
 
         if (slice.length === 0) {
-            this.listContainer.innerHTML = '<p class="no-results">No blogs found</p>';
+            this.listContainer.innerHTML = '<p class="no-results text-gray-600">No blogs found</p>';
         }
     }
 
-    // TODO (candidate): implement sorting
+    // --- Sorting ---
     onSortChange(e) {
         const by = e.target.value;
-        // Implement sorting by: date, reading_time, category
-        // After sorting, reset page to 1 and call this.render()
+        if (by === 'date') {
+            this.filteredItems.sort((a, b) =>
+                new Date(b.published_date) - new Date(a.published_date)
+            );
+        } else if (by === 'reading_time') {
+            this.filteredItems.sort((a, b) =>
+                parseInt(a.reading_time) - parseInt(b.reading_time)
+            );
+        } else if (by === 'category') {
+            this.filteredItems.sort((a, b) =>
+                (a.category || '').localeCompare(b.category || '')
+            );
+        }
+        this.page = 1;
+        this.render();
     }
 
-    // TODO (candidate): implement filtering
+    // --- Filtering ---
     onFilterChange(e) {
-        const val = e.target.value; // Gadgets | Startups | Writing | ''
-        // Filter this.items by category or tags to create this.filteredItems
-        // After filtering, reset page to 1 and call this.render()
+        const val = e.target.value;
+        if (val) {
+            this.filteredItems = this.items.filter(
+                (item) => item.category === val || (item.tags || []).includes(val)
+            );
+        } else {
+            this.filteredItems = [...this.items];
+        }
+        this.page = 1;
+        this.render();
     }
 
-    // TODO (candidate): implement search by title
+    // --- Searching ---
     onSearchInput(e) {
         const q = (e.target.value || '').toLowerCase();
-        // Filter by title (and optionally content) using q
-        // After filtering, reset page to 1 and call this.render()
+        this.filteredItems = this.items.filter((item) =>
+            item.title.toLowerCase().includes(q)
+        );
+        this.page = 1;
+        this.render();
     }
 
+    // --- UI Helpers ---
     showLoading() {
         this.loadingIndicator?.classList.remove('hidden');
     }
@@ -103,4 +170,3 @@ export class BlogList {
         this.errorContainer.textContent = `Error: ${err.message}`;
     }
 }
-

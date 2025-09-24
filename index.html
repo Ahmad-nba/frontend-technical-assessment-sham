@@ -1,70 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Frontend Assessment</title>
-    <link rel="stylesheet" href="src/css/styles.css">
-</head>
-<body>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="stylesheet" href="src/css/styles.css" />
+  </head>
+  <body>
     <header>
-        <!-- Implement navigation here (not required on this branch) -->
+      <!-- Implement navigation here (not required on this branch) -->
     </header>
     <main>
-        <section id="drag-section" class="content-section">
-            <h2>Drag & Drop Demo</h2>
-            <div class="drag-drop-container">
-                <div class="draggable-list">
-                    <div class="draggable-item" draggable="true">
-                        <div class="item-content">Item 1</div>
-                        <span class="drag-handle">⋮</span>
-                    </div>
-                    <div class="draggable-item" draggable="true">
-                        <div class="item-content">Item 2</div>
-                        <span class="drag-handle">⋮</span>
-                    </div>
-                    <div class="draggable-item" draggable="true">
-                        <div class="item-content">Item 3</div>
-                        <span class="drag-handle">⋮</span>
-                    </div>
-                </div>
-                <div class="drop-zones">
-                    <div class="drop-zone">
-                        <div class="drop-zone-label">Drop Here</div>
-                    </div>
-                    <div class="drop-zone">
-                        <div class="drop-zone-label">Drop Here</div>
-                    </div>
-                </div>
+      <section id="drag-section" class="content-section py-10 bg-gray-50">
+        <h2 class="text-2xl font-bold mb-6 text-center">Drag & Drop Demo</h2>
+        <div
+          class="drag-drop-container flex flex-col md:flex-col gap-8 items-center justify-center"
+        >
+          <!-- Draggable items -->
+          <div class="draggable-list flex flex-col gap-4 w-full md:w-1/3">
+            <div
+              class="draggable-item flex items-center justify-between bg-white shadow rounded-lg p-4 cursor-move"
+              draggable="true"
+            >
+              <div class="item-content font-medium">Item 1</div>
+              <span class="drag-handle text-gray-400">⋮</span>
             </div>
-        </section>
+            <div
+              class="draggable-item flex items-center justify-between bg-white shadow rounded-lg p-4 cursor-move"
+              draggable="true"
+            >
+              <div class="item-content font-medium">Item 2</div>
+              <span class="drag-handle text-gray-400">⋮</span>
+            </div>
+            <div
+              class="draggable-item flex items-center justify-between bg-white shadow rounded-lg p-4 cursor-move"
+              draggable="true"
+            >
+              <div class="item-content font-medium">Item 3</div>
+              <span class="drag-handle text-gray-400">⋮</span>
+            </div>
+          </div>
 
-        <section id="list-section" class="content-section">
-            <h2>Blog List Demo</h2>
-            <div class="blog-list-container">
-                <div class="blog-controls">
-                    <select class="sort-select">
-                        <option value="">Sort by...</option>
-                        <option value="date">Date</option>
-                        <option value="reading_time">Reading Time</option>
-                        <option value="category">Category</option>
-                    </select>
-                    <select class="filter-select">
-                        <option value="">Filter by...</option>
-                        <option value="Gadgets">Gadgets</option>
-                        <option value="Startups">Startups</option>
-                        <option value="Writing">Writing</option>
-                    </select>
-                    <input type="search" class="search-input" placeholder="Search blogs...">
-                </div>
-                <div class="loading-indicator hidden">Loading blogs...</div>
-                <div class="error-container hidden"></div>
-                <div class="blog-list-content">
-                    <!-- Blogs will be rendered here -->
-                </div>
+          <!-- Drop zones -->
+          <div
+            class="drop-zones flex flex-col md:flex-row gap-6 w-full md:w-2/3"
+          >
+            <div
+              class="drop-zone flex-1 min-h-[120px] border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center bg-gray-100 transition-colors"
+            >
+              <div class="drop-zone-label text-gray-500">Drop Here</div>
             </div>
-        </section>
+            <div
+              class="drop-zone flex-1 min-h-[120px] border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center bg-gray-100 transition-colors"
+            >
+              <div class="drop-zone-label text-gray-500">Drop Here</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="list-section" class="content-section py-10 px-6 bg-gray-50">
+        <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">
+          Blog List Demo
+        </h2>
+
+        <div
+          class="blog-list-container max-w-5xl mx-auto bg-white shadow-md rounded-lg p-6"
+        >
+          <!-- Controls -->
+          <div class="blog-controls flex flex-col md:flex-row gap-4 mb-6">
+            <select
+              class="sort-select border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="">Sort by...</option>
+              <option value="date">Date</option>
+              <option value="reading_time">Reading Time</option>
+              <option value="category">Category</option>
+            </select>
+
+            <select
+              class="filter-select border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="">Filter by...</option>
+              <option value="Gadgets">Gadgets</option>
+              <option value="Startups">Startups</option>
+              <option value="Writing">Writing</option>
+            </select>
+
+            <input
+              type="search"
+              class="search-input flex-1 border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Search blogs..."
+            />
+          </div>
+
+          <!-- Loading Indicator -->
+          <div class="loading-indicator hidden text-blue-600 font-medium mb-4">
+            Loading blogs...
+          </div>
+
+          <!-- Error Display -->
+          <div
+            class="error-container hidden bg-red-100 text-red-700 p-3 rounded mb-4"
+          ></div>
+
+          <!-- Blog Items -->
+          <div class="blog-list-content space-y-6">
+            <!-- Blogs will be injected here -->
+          </div>
+        </div>
+      </section>
     </main>
     <script type="module" src="src/js/main.js"></script>
-</body>
+  </body>
 </html>
