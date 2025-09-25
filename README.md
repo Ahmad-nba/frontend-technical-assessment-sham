@@ -1,85 +1,46 @@
-# Frontend Technical Assessment
+## Implementation Summary
 
-This project is a **frontend technical assessment** showcasing modern UI/UX implementation using **Tailwind CSS** and vanilla JavaScript modules.  
-It demonstrates interactive components, clean design, and responsive layouts.
+### Completed Features
+- **Sticky Navigation Header**
+  - Responsive top navigation bar using Tailwind CSS.
+  - Mobile hamburger menu with toggle functionality.
+  - Smooth scrolling to sections when clicking navigation links.
+  - Dynamic highlighting of the active section link.
+  - Accessibility support: ARIA attributes, keyboard navigation, focus management.
 
----
+- **Drag & Drop Demo**
+  - Draggable list items that can be rearranged.
+  - Two drop zones accepting items.
+  - Styled with Tailwind CSS for a clean UI.
 
-## 🚀 Features
+- **Blog List Demo**
+  - Blog list with sorting (date, reading time, category).
+  - Filtering by category.
+  - Real-time search functionality.
+  - Loading indicator and error display states.
+  - Implemented with modular JavaScript (`BlogList.js`).
 
-### 🖱️ Drag & Drop Demo
+- **Styling**
+  - Tailwind CSS integrated via CDN.
+  - Additional custom CSS in `src/css/styles.css`.
 
-- Users can drag items and drop them into designated zones.
-- Implemented with vanilla JavaScript (`DragDrop` class).
-- Styled with Tailwind for consistent, modern visuals.
+### Pending Items
+- Content for the "Navigation" section is placeholder only.
+- Blog list currently uses static data — could be extended with API integration.
+- Drag & Drop feature can be enhanced with animations and persistence.
+- No automated testing suite implemented yet.
 
-### 📑 Blog List Demo
+### Technical Challenges
+- **Merge Conflicts**: Needed to resolve conflicts between `feature/drag-drop` and `feature/navigation` branches, especially in `main.js` and `index.html`.
+- **Dynamic Navigation**: Ensuring the active nav link highlights correctly on scroll required Intersection Observer logic and careful DOM handling.
+- **Responsiveness**: Adjusting the layout for both desktop and mobile required fine-tuning Tailwind classes and testing different breakpoints.
+- **Accessibility**: Implementing ARIA roles and keyboard support to ensure usability beyond mouse interaction.
 
-- Dynamic blog list container that supports:
-  - Sorting (by date, reading time, category).
-  - Filtering (category-based).
-  - Searching (real-time input).
-- Loading and error states are displayed.
-- Implemented with a `BlogList` class and styled with Tailwind.
+### AI Usage
+- Used **ChatGPT (OpenAI)** as a coding assistant to:
+  - Suggest code structure for modular JavaScript (`DragDrop.js`, `BlogList.js`, `navigation.js`).
+  - Refactor sticky navigation with smooth scrolling and accessibility.
+  - Generate Tailwind utility class combinations for responsive layouts.
+  - Provide guidance on resolving Git merge conflicts.
+  - Draft and refine project documentation (README).
 
-### 🧭 Responsive Navigation
-
-- Sticky top navigation bar.
-- Mobile-first design with a **hamburger toggle**.
-- Smooth responsive layout:
-  - Desktop: horizontal nav menu.
-  - Mobile: collapsible dropdown menu.
-- Built with Tailwind utility classes for quick and scalable styling.
-
----
-
-## 🛠️ Tech Stack
-
-- **HTML5**
-- **CSS3** (via [Tailwind CSS](https://tailwindcss.com/))
-- **JavaScript (ES6 Modules)**
-  - `DragDrop.js` → manages drag-and-drop logic
-  - `BlogList.js` → handles blog rendering, sorting, filtering, search
-  - `navigation.js` → toggles and controls responsive navigation
-- **Git & GitHub** for version control and collaboration
-
----
-
----
-
-## 📸 Preview
-
-### Navigation
-
-- Sticky, mobile-first responsive header with hamburger toggle.
-
-### Drag & Drop
-
-- Three draggable items.
-- Two drop zones styled with Tailwind and interactive states.
-
-### Blog List
-
-- Sort, filter, and search functionality.
-- Dynamic UI updates.
-- Tailwind-styled components with focus/hover states.
-
----
-
-## ⚡ Getting Started
-
-1. Clone the repository:
-
-   ```bash
-   git clone <repo-url>
-   cd frontend-technical-assessment-sham
-
-
-   🙌 Acknowledgements
-   ```
-
-Tailwind CSS for utility-first styling.
-
-Assessment guidelines for providing the project scope.
-
-Vanilla JS modules for keeping the implementation clean and modular.
