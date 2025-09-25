@@ -10,10 +10,88 @@
     <link rel="stylesheet" href="src/css/styles.css" />
   </head>
   <body>
-    <header>
-      <!-- Implement navigation here (not required on this branch) -->
+    <!-- Sticky Navigation Header -->
+    <header
+      class="sticky top-0 z-50 bg-slate-800 text-white shadow"
+      role="banner"
+    >
+      <nav
+        class="max-w-7xl mx-auto flex items-center md:justify-center justify-between px-4 py-3"
+        role="navigation"
+        aria-label="Main navigation"
+      >
+        <!-- Mobile toggle -->
+        <button
+          id="nav-toggle"
+          class="nav-toggle md:hidden p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+          aria-label="Toggle navigation"
+          aria-expanded="false"
+          aria-controls="nav-list"
+        >
+          <span class="block w-6 h-0.5 bg-white mb-1"></span>
+          <span class="block w-6 h-0.5 bg-white mb-1"></span>
+          <span class="block w-6 h-0.5 bg-white"></span>
+        </button>
+
+        <!-- Nav links (desktop) -->
+        <ul
+          id="nav-list"
+          class="nav-list hidden md:flex gap-6 items-center"
+          role="menubar"
+        >
+          <li role="none">
+            <a
+              role="menuitem"
+              href="#drag-section"
+              class="nav-link text-slate-200 hover:text-white px-3 py-2 rounded transition-colors"
+              >Drag &amp; Drop</a
+            >
+          </li>
+          <li role="none">
+            <a
+              role="menuitem"
+              href="#list-section"
+              class="nav-link text-slate-200 hover:text-white px-3 py-2 rounded transition-colors"
+              >Blog List</a
+            >
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Mobile dropdown -->
+      <div
+        id="mobile-menu"
+        class="mobile-menu hidden md:hidden bg-slate-800"
+        aria-hidden="true"
+      >
+        <ul
+          class="flex flex-col gap-2 px-4 pb-4 pt-2"
+          role="menu"
+          aria-label="Mobile navigation"
+        >
+          <li role="none">
+            <a
+              role="menuitem"
+              href="#drag-section"
+              class="nav-link block text-slate-200 hover:text-white px-3 py-2 rounded"
+              >Drag &amp; Drop</a
+            >
+          </li>
+          <li role="none">
+            <a
+              role="menuitem"
+              href="#list-section"
+              class="nav-link block text-slate-200 hover:text-white px-3 py-2 rounded"
+              >Blog List</a
+            >
+          </li>
+        </ul>
+      </div>
     </header>
+
+    <!-- Main Content -->
     <main>
+      <!-- Drag & Drop Section -->
       <section id="drag-section" class="content-section py-10 bg-gray-50">
         <h2 class="text-2xl font-bold mb-6 text-center">Drag & Drop Demo</h2>
         <div
@@ -45,9 +123,7 @@
           </div>
 
           <!-- Drop zones -->
-          <div
-            class="drop-zones flex flex-col md:flex-row gap-6 w-full md:w-2/3"
-          >
+          <div class="drop-zones flex flex-col md:flex-row gap-6 w-full md:w-2/3">
             <div
               class="drop-zone flex-1 min-h-[120px] border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center bg-gray-100 transition-colors"
             >
@@ -62,6 +138,7 @@
         </div>
       </section>
 
+      <!-- Blog List Section -->
       <section id="list-section" class="content-section py-10 px-6 bg-gray-50">
         <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">
           Blog List Demo
@@ -114,6 +191,7 @@
         </div>
       </section>
     </main>
+
     <script type="module" src="src/js/main.js"></script>
   </body>
 </html>

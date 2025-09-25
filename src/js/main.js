@@ -1,6 +1,8 @@
 import { DragDrop } from "./dragDrop.js";
 import { BlogList } from "./BlogList.js";
+import { Navigation } from "./navigation.js";
 
+// Initialize when DOM is ready
 document.addEventListener("DOMContentLoaded", () => {
   // Initialize Drag & Drop
   const dragDropContainer = document.querySelector(".drag-drop-container");
@@ -14,5 +16,11 @@ document.addEventListener("DOMContentLoaded", () => {
   if (blogListContainer) {
     const blogList = new BlogList(blogListContainer);
     blogList.init();
+  }
+
+  // Initialize Navigation if nav elements exist
+  if (document.querySelector(".nav-toggle") || document.querySelector(".nav-list")) {
+    // eslint-disable-next-line no-new
+    new Navigation();
   }
 });
